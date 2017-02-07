@@ -15,10 +15,19 @@ import sample.loaderSabjects;
 public class Main extends Application {
     private Stage primaryStage;
     private AnchorPane rootLayout;
+
+    public sample.subjectsForObserver getSubjectsForObserver() {
+        return subjectsForObserver;
+    }
+
+    private subjectsForObserver subjectsForObserver;
     private ObservableList<subject> Data = FXCollections.observableArrayList();
     //private client client;
     public Main() {
+        subjectsForObserver = new subjectsForObserver();
+        subjectsForObserver.setItems();
       Data.addAll( new loaderSabjects().loadSubject());
+     // new loaderSabjects().saveSubject(Data);
     }
     public ObservableList<subject> getPersonData() {
         return Data;
@@ -43,7 +52,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-    public boolean showPersonAddDialog(subject person) {
+    public boolean showPersonAddDialog(subjectsForObserver subjectsForObserver) {
         try {
 
             FXMLLoader loader = new FXMLLoader();
@@ -61,7 +70,8 @@ public class Main extends Application {
             // Передаём адресата в контроллер.
             PersonAddDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
-            controller.setPerson(person);
+            controller.setPerson(subjectsForObserver);
+            controller.setMainApp(this);
 
             // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
             dialogStage.showAndWait();

@@ -12,9 +12,9 @@
 <children><Button layoutX="197.1875" layoutY="241.0" mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="OK" /><Button layoutX="249.375" layoutY="241.0" mnemonicParsing="false" onAction="#handleCancel" prefWidth="90.0" text="Cancel" />
 </children>
 </HBox>
-      <TableView layoutX="14.0" prefHeight="244.0" prefWidth="380.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="table" layoutX="14.0" prefHeight="244.0" prefWidth="380.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn prefWidth="379.0" text="C1" />
+          <TableColumn fx:id="name" prefWidth="379.0" text="C1" />
         </columns>
       </TableView>
 </children></AnchorPane>

@@ -79,6 +79,7 @@ public class Controller {
         int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             personTable.getItems().remove(selectedIndex);
+            new loaderSabjects().saveSubject(mainApp.getPersonData());
         } else {
             // Ничего не выбрано.
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -92,11 +93,12 @@ public class Controller {
     }
     @FXML
     private void handleNewPerson() {
-        subject tempPerson = new subject();
+        subjectsForObserver tempPerson = mainApp.getSubjectsForObserver();
 
         boolean okClicked = mainApp.showPersonAddDialog(tempPerson);
         if (okClicked) {
-            mainApp.getPersonData().add(tempPerson);
+          //  mainApp.getPersonData().add(tempPerson.getSubject());
+           new loaderSabjects().saveSubject(mainApp.getPersonData());
         }
     }
 
@@ -106,12 +108,21 @@ public class Controller {
      */
     @FXML
     private void handleEditPerson() {
-        subject selectedPerson = personTable.getSelectionModel().getSelectedItem();
-        if (selectedPerson != null) {
-            boolean okClicked = mainApp.showPersonAddDialog(selectedPerson);
-            if (okClicked) {
-                showDetails(selectedPerson);
-            }
+        subject selectedIndex = personTable.getSelectionModel().getSelectedItem();
+
+        if (selectedIndex != null) {
+
+            loaderSabjects loaderSabjects = new loaderSabjects();
+            loaderSabjects.setFileName("update.doc");
+           loaderSabjects.updateSubject(selectedIndex.getName());
+            System.out.println(selectedIndex.getName());
+
+                    personTable.getItems().remove(selectedIndex);
+                    personTable.getItems().add(loaderSabjects.updateSubject(selectedIndex.getName()));
+
+            // selectedPerson = loaderSabjects.updateSubject(selectedPerson.getName());
+            loaderSabjects.setFileName("fileName.doc");
+            loaderSabjects.saveSubject(mainApp.getPersonData());
 
         } else {
             // Ничего не выбрано.

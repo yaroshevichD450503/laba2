@@ -1,24 +1,38 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class PersonAddDialogController {
+    private Main mainApp;
     @FXML
     private TextField firstNameField;
+    @FXML
+    private TableView<subject> table;
+    @FXML
+    private TableColumn<subject, String> name;
     private Stage dialogStage;
     private subject subject;
     private boolean okClicked = false;
-
     /**
      * Инициализирует класс-контроллер. Этот метод вызывается автоматически
      * после того, как fxml-файл будет загружен.
      */
     @FXML
     private void initialize() {
+       name.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        table.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> show(newValue));
     }
 
     /**
@@ -32,11 +46,10 @@ public class PersonAddDialogController {
 
     /**
      *
-     * @param subject
+     * @param subjectsForObserver
      */
-    public void setPerson(subject subject) {
-        this.subject = subject;
-
+    public void setPerson(subjectsForObserver subjectsForObserver) {
+        table.setItems(subjectsForObserver.getString());
     }
 
     /**
@@ -52,11 +65,11 @@ public class PersonAddDialogController {
      */
     @FXML
     private void handleOk() {
-        if (isInputValid()) {
-
+       //if (isInputValid()) {
+            mainApp.getPersonData().add(this.subject);
             okClicked = true;
             dialogStage.close();
-        }
+        //}
     }
 
     /**
@@ -76,4 +89,17 @@ public class PersonAddDialogController {
 
             return true;
         }
+
+    public void show(subject subject){
+        int selectedIndex = table.getSelectionModel().getSelectedIndex();
+        mainApp.getSubjectsForObserver().setSubject(subject);
+        this.subject = subject;
+        if (okClicked) {
+            //mainApp.getPersonData().add(subject);
+        }
+    }
+    public void setMainApp(Main mainApp) {
+        this.mainApp = mainApp;
+    }
+
 }
